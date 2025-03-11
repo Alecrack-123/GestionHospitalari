@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="co.edu.uniquindio.poo.gestionhospitalaria.HospitalFXMLController">
+    <children>
+        <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
+
+            <!-- Pestaña Médicos -->
+            <Tab text="Médicos">
+                <AnchorPane>
+                    <VBox spacing="10" alignment="CENTER">
+                        <padding>
+                            <Insets top="10" right="10" bottom="10" left="10"/>
+                        </padding>
+
+                        <TitledPane text="Registrar Médico" expanded="true">
+                            <VBox spacing="5">
+                                <TextField fx:id="txtNombreMedico" promptText="Nombre"/>
+                                <TextField fx:id="txtEspecialidad" promptText="Especialidad"/>
+                                <TextField fx:id="txtMaxPacientes" promptText="Máximo de Pacientes"/>
+                                <Button text="Agregar Médico" onAction="#agregarMedico" fx:id="btnAgregarMedico"/>
+                                <Button text="Actualizar Médico" onAction="#actualizarMedico" fx:id="btnActualizarMedico"/>
+                                <Button text="Eliminar Médico" onAction="#eliminarMedico" fx:id="btnEliminarMedico"/>
+                            </VBox>
+                        </TitledPane>
+                        <TableView fx:id="tablaMedicos">
+                            <columns>
+                                <TableColumn text="Nombre" fx:id="colNombreMedico"/>
+                                <TableColumn text="Especialidad" fx:id="colEspecialidad"/>
+                                <TableColumn text="Máx. Pacientes" fx:id="colMaxPacientes"/>
+                            </columns>
+                        </TableView>
+                    </VBox>
+                </AnchorPane>
+            </Tab>
+
+            <!-- Pestaña Pacientes -->
+            <Tab text="Pacientes">
+                <AnchorPane>
+                    <VBox spacing="10" alignment="CENTER">
+                        <padding>
+                            <Insets top="10" right="10" bottom="10" left="10"/>
+                        </padding>
+
+                        <TitledPane text="Registrar Paciente" expanded="true">
+                            <VBox spacing="5">
+                                <TextField fx:id="txtNombrePaciente" promptText="Nombre"/>
+                                <TextField fx:id="txtEdad" promptText="Edad"/>
+                                <TextField fx:id="txtHistorial" promptText="Historial Médico"/>
+                                <TextField fx:id="txtMedicamentos" promptText="Medicamentos"/>
+                                <Button text="Agregar Paciente" onAction="#agregarPaciente" fx:id="btnAgregarPaciente"/>
+                                <Button text="Actualizar Paciente" onAction="#actualizarPaciente" fx:id="btnActualizarPaciente"/>
+                                <Button text="Eliminar Paciente" onAction="#eliminarPaciente" fx:id="btnEliminarPaciente"/>
+                            </VBox>
+                        </TitledPane>
+                        <TableView fx:id="tablaPacientes">
+                            <columns>
+                                <TableColumn text="Nombre" fx:id="colNombrePaciente"/>
+                                <TableColumn text="Edad" fx:id="colEdad"/>
+                                <TableColumn text="Historial" fx:id="colHistorial"/>
+                                <TableColumn text="Medicamentos" fx:id="colMedicamentos"/>
+                            </columns>
+                        </TableView>
+                    </VBox>
+                </AnchorPane>
+            </Tab>
+
+            <!-- Pestaña Citas -->
+            <Tab text="Citas">
+                <AnchorPane>
+                    <VBox spacing="10" alignment="CENTER">
+                        <padding>
+                            <Insets top="10" right="10" bottom="10" left="10"/>
+                        </padding>
+
+                        <TitledPane text="Agendar Cita" expanded="true">
+                            <VBox spacing="5">
+                                <DatePicker fx:id="dpFechaCita"/>
+                                <TextField fx:id="txtHoraCita" promptText="Hora"/>
+                                <ComboBox fx:id="cbPacientes" promptText="Seleccionar Paciente"/>
+                                <ComboBox fx:id="cbMedicos" promptText="Seleccionar Médico"/>
+                                <Button text="Agendar Cita" onAction="#agendarCita" fx:id="btnAgendarCita"/>
+                            </VBox>
+                        </TitledPane>
+                    </VBox>
+                </AnchorPane>
+            </Tab>
+        </TabPane>
+    </children>
+</AnchorPane>
