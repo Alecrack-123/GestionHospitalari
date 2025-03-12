@@ -1,93 +1,149 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="co.edu.uniquindio.poo.gestionhospitalaria.HospitalFXMLController">
-    <children>
-        <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
 
-            <!-- Pestaña Médicos -->
-            <Tab text="Médicos">
-                <AnchorPane>
-                    <VBox spacing="10" alignment="CENTER">
-                        <padding>
-                            <Insets top="10" right="10" bottom="10" left="10"/>
-                        </padding>
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="co.edu.uniquindio.poo.gestionhospitalaria.HospitalFXMLController"
+      spacing="10" style="-fx-background-color: #f0f2f5;" prefWidth="1200" prefHeight="800">
 
-                        <TitledPane text="Registrar Médico" expanded="true">
-                            <VBox spacing="5">
-                                <TextField fx:id="txtNombreMedico" promptText="Nombre"/>
-                                <TextField fx:id="txtEspecialidad" promptText="Especialidad"/>
-                                <TextField fx:id="txtMaxPacientes" promptText="Máximo de Pacientes"/>
-                                <Button text="Agregar Médico" onAction="#agregarMedico" fx:id="btnAgregarMedico"/>
-                                <Button text="Actualizar Médico" onAction="#actualizarMedico" fx:id="btnActualizarMedico"/>
-                                <Button text="Eliminar Médico" onAction="#eliminarMedico" fx:id="btnEliminarMedico"/>
-                            </VBox>
-                        </TitledPane>
-                        <TableView fx:id="tablaMedicos">
-                            <columns>
-                                <TableColumn text="Nombre" fx:id="colNombreMedico"/>
-                                <TableColumn text="Especialidad" fx:id="colEspecialidad"/>
-                                <TableColumn text="Máx. Pacientes" fx:id="colMaxPacientes"/>
-                            </columns>
-                        </TableView>
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <TabPane VBox.vgrow="ALWAYS" style="-fx-background-color: white;">
+        <Tab text="Médicos" closable="false">
+            <VBox spacing="10">
+                <HBox spacing="10" style="-fx-background-color: white; -fx-padding: 10;">
+                    <VBox spacing="5" prefWidth="250">
+                        <Label text="Nombre del Médico:" style="-fx-font-weight: bold;"/>
+                        <TextField fx:id="txtNombreMedico"/>
+
+                        <Label text="Especialidad:" style="-fx-font-weight: bold;"/>
+                        <TextField fx:id="txtEspecialidad"/>
+
+                        <Label text="Máximo de Pacientes:" style="-fx-font-weight: bold;"/>
+                        <TextField fx:id="txtMaxPacientes"/>
+
+                        <ComboBox fx:id="cbMedicos" promptText="Seleccionar Médico" prefWidth="250"/>
+
+                        <HBox spacing="5" alignment="CENTER" style="-fx-padding: 10 0;">
+                            <Button text="Agregar" onAction="#agregarMedico"
+                                    style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+                            <Button text="Eliminar" onAction="#eliminarMedico"
+                                    style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+                            <Button text="Modificar" onAction="#modificarMedico"
+                                    style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+                            <Button text="Buscar" onAction="#buscarMedico"
+                                    style="-fx-background-color: #FF9800; -fx-text-fill: white;"/>
+                        </HBox>
+
+                        <Label fx:id="lblResultadoMedico" wrapText="true"
+                               style="-fx-text-fill: #1976D2;"/>
                     </VBox>
-                </AnchorPane>
-            </Tab>
 
-            <!-- Pestaña Pacientes -->
-            <Tab text="Pacientes">
-                <AnchorPane>
-                    <VBox spacing="10" alignment="CENTER">
-                        <padding>
-                            <Insets top="10" right="10" bottom="10" left="10"/>
-                        </padding>
+                    <TableView fx:id="tablaMedicos" HBox.hgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="colNombreMedico" text="Nombre" prefWidth="200"/>
+                            <TableColumn fx:id="colEspecialidad" text="Especialidad" prefWidth="200"/>
+                            <TableColumn fx:id="colMaxPacientes" text="Max. Pacientes" prefWidth="100"/>
+                        </columns>
+                    </TableView>
+                </HBox>
+            </VBox>
+        </Tab>
 
-                        <TitledPane text="Registrar Paciente" expanded="true">
-                            <VBox spacing="5">
-                                <TextField fx:id="txtNombrePaciente" promptText="Nombre"/>
-                                <TextField fx:id="txtEdad" promptText="Edad"/>
-                                <TextField fx:id="txtHistorial" promptText="Historial Médico"/>
-                                <TextField fx:id="txtMedicamentos" promptText="Medicamentos"/>
-                                <Button text="Agregar Paciente" onAction="#agregarPaciente" fx:id="btnAgregarPaciente"/>
-                                <Button text="Actualizar Paciente" onAction="#actualizarPaciente" fx:id="btnActualizarPaciente"/>
-                                <Button text="Eliminar Paciente" onAction="#eliminarPaciente" fx:id="btnEliminarPaciente"/>
-                            </VBox>
-                        </TitledPane>
-                        <TableView fx:id="tablaPacientes">
-                            <columns>
-                                <TableColumn text="Nombre" fx:id="colNombrePaciente"/>
-                                <TableColumn text="Edad" fx:id="colEdad"/>
-                                <TableColumn text="Historial" fx:id="colHistorial"/>
-                                <TableColumn text="Medicamentos" fx:id="colMedicamentos"/>
-                            </columns>
-                        </TableView>
+        <Tab text="Pacientes" closable="false">
+            <VBox spacing="10">
+                <HBox spacing="10" style="-fx-background-color: white; -fx-padding: 10;">
+                    <VBox spacing="5" prefWidth="250">
+                        <Label text="Nombre del Paciente:" style="-fx-font-weight: bold;"/>
+                        <TextField fx:id="txtNombrePaciente"/>
+
+                        <Label text="Edad:" style="-fx-font-weight: bold;"/>
+                        <TextField fx:id="txtEdad"/>
+
+                        <Label text="Historial:" style="-fx-font-weight: bold;"/>
+                        <TextArea fx:id="txtHistorial" prefRowCount="3"/>
+
+                        <Label text="Medicamentos:" style="-fx-font-weight: bold;"/>
+                        <TextArea fx:id="txtMedicamentos" prefRowCount="3"/>
+
+                        <ComboBox fx:id="cbPacientes" promptText="Seleccionar Paciente" prefWidth="250"/>
+
+                        <HBox spacing="5" alignment="CENTER" style="-fx-padding: 10 0;">
+                            <Button text="Agregar" onAction="#agregarPaciente"
+                                    style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+                            <Button text="Eliminar" onAction="#eliminarPaciente"
+                                    style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+                            <Button text="Modificar" onAction="#modificarPaciente"
+                                    style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+                            <Button text="Buscar" onAction="#buscarPaciente"
+                                    style="-fx-background-color: #FF9800; -fx-text-fill: white;"/>
+                        </HBox>
+
+                        <Label fx:id="lblResultadoPaciente" wrapText="true"
+                               style="-fx-text-fill: #1976D2;"/>
                     </VBox>
-                </AnchorPane>
-            </Tab>
 
-            <!-- Pestaña Citas -->
-            <Tab text="Citas">
-                <AnchorPane>
-                    <VBox spacing="10" alignment="CENTER">
-                        <padding>
-                            <Insets top="10" right="10" bottom="10" left="10"/>
-                        </padding>
+                    <TableView fx:id="tablaPacientes" HBox.hgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="colNombrePaciente" text="Nombre" prefWidth="150"/>
+                            <TableColumn fx:id="colEdad" text="Edad" prefWidth="80"/>
+                            <TableColumn fx:id="colHistorial" text="Historial" prefWidth="200"/>
+                            <TableColumn fx:id="colMedicamentos" text="Medicamentos" prefWidth="200"/>
+                        </columns>
+                    </TableView>
+                </HBox>
+            </VBox>
+        </Tab>
 
-                        <TitledPane text="Agendar Cita" expanded="true">
-                            <VBox spacing="5">
-                                <DatePicker fx:id="dpFechaCita"/>
-                                <TextField fx:id="txtHoraCita" promptText="Hora"/>
-                                <ComboBox fx:id="cbPacientes" promptText="Seleccionar Paciente"/>
-                                <ComboBox fx:id="cbMedicos" promptText="Seleccionar Médico"/>
-                                <Button text="Agendar Cita" onAction="#agendarCita" fx:id="btnAgendarCita"/>
-                            </VBox>
-                        </TitledPane>
+        <Tab text="Citas" closable="false">
+            <VBox spacing="10">
+                <HBox spacing="10" style="-fx-background-color: white; -fx-padding: 10;">
+                    <VBox spacing="5" prefWidth="250">
+                        <Label text="Fecha:" style="-fx-font-weight: bold;"/>
+                        <DatePicker fx:id="dpFechaCita" prefWidth="250"/>
+
+                        <Label text="Hora:" style="-fx-font-weight: bold;"/>
+                        <TextField fx:id="txtHoraCita"/>
+
+                        <Label text="Médico:" style="-fx-font-weight: bold;"/>
+                        <ComboBox fx:id="cbMedicosCitas" promptText="Seleccionar Médico" prefWidth="250"/>
+                        <Label text="Paciente:" style="-fx-font-weight: bold;"/>
+                        <ComboBox fx:id="cbPacientesCitas" promptText="Seleccionar Paciente" prefWidth="250"/>
+                        <HBox spacing="5" alignment="CENTER" style="-fx-padding: 10 0;">
+                            <Button text="Agendar" onAction="#agendarCita"
+                                    style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+                            <Button text="Cancelar" onAction="#cancelarCita"
+                                    style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+                        </HBox>
                     </VBox>
-                </AnchorPane>
-            </Tab>
-        </TabPane>
-    </children>
-</AnchorPane>
+
+                    <TableView fx:id="tablaCitas" HBox.hgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="colPacienteCita" text="Paciente" prefWidth="200"/>
+                            <TableColumn fx:id="colMedicoCita" text="Médico" prefWidth="200"/>
+                            <TableColumn fx:id="colFechaCita" text="Fecha" prefWidth="150"/>
+                            <TableColumn fx:id="colHoraCita" text="Hora" prefWidth="100"/>
+                        </columns>
+                    </TableView>
+                </HBox>
+            </VBox>
+        </Tab>
+
+        <Tab text="Análisis" closable="false">
+            <VBox spacing="10" style="-fx-padding: 10;">
+                <HBox spacing="10" alignment="CENTER">
+                    <Button text="Buscar Nombres Palíndromos" onAction="#buscarNombresPalindromos"
+                            style="-fx-background-color: #673AB7; -fx-text-fill: white;"/>
+                    <Button text="Buscar Nombres con Dos Vocales Iguales"
+                            onAction="#buscarNombresConDosVocalesIguales"
+                            style="-fx-background-color: #673AB7; -fx-text-fill: white;"/>
+                </HBox>
+            </VBox>
+        </Tab>
+    </TabPane>
+</VBox>

@@ -5,24 +5,32 @@ import javafx.collections.ObservableList;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HospitalController {
     private Hospital hospital;
     private ObservableList<Medico> listaMedicos;
     private ObservableList<Paciente> listaPacientes;
     private ObservableList<Cita> listaCitas;
+    private Map<String, Medico> mapaMedicos;
+    private Map<String, Paciente> mapaPacientes;
 
     public HospitalController(String nombre, String horarioAtencion, int maxPacientes, String reglasFacturacion) {
         this.hospital = new Hospital(nombre);
-        GestorConfiguracion.getInstance().setHorarioAtencion(horarioAtencion);
-        GestorConfiguracion.getInstance().setNumeroMaxPacientes(maxPacientes);
-        GestorConfiguracion.getInstance().setReglasFacturacion(reglasFacturacion);
+        GestorConfiguracion config = GestorConfiguracion.getInstance();
+        config.setHorarioAtencion(horarioAtencion);
+        config.setNumeroMaxPacientes(maxPacientes);
+        config.setReglasFacturacion(reglasFacturacion);
         this.listaMedicos = FXCollections.observableArrayList();
         this.listaPacientes = FXCollections.observableArrayList();
         this.listaCitas = FXCollections.observableArrayList();
+        this.mapaMedicos = new HashMap<>();
+        this.mapaPacientes = new HashMap<>();
     }
 
     // MÉTODOS PARA MÉDICOS
+
     public void agregarMedico(String nombre, String especialidad, int maxPacientes) {
         if (nombre == null || nombre.trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre del médico no puede estar vacío.");
@@ -33,8 +41,12 @@ public class HospitalController {
         if (maxPacientes <= 0) {
             throw new IllegalArgumentException("El número máximo de pacientes debe ser mayor que cero.");
         }
+        if (mapaMedicos.containsKey(nombre.toLowerCase())) {
+            throw new IllegalArgumentException("El médico ya está registrado.");
+        }
         Medico medico = new Medico(nombre, especialidad, maxPacientes);
         listaMedicos.add(medico);
+        mapaMedicos.put(nombre.toLowerCase(), medico);
     }
 
     public void eliminarMedico(Medico medico) {
@@ -42,15 +54,18 @@ public class HospitalController {
             throw new IllegalArgumentException("El médico no puede ser nulo.");
         }
         listaMedicos.remove(medico);
+        mapaMedicos.remove(medico.getNombre().toLowerCase());
     }
 
-    public void actualizarMedico(Medico medico, String nuevoNombre, String nuevaEspecialidad, int nuevoMaxPacientes) {
+    public void modificarMedico(Medico medico, String nuevoNombre, String nuevaEspecialidad, int nuevoMaxPacientes) {
         if (medico == null) {
             throw new IllegalArgumentException("El médico no puede ser nulo.");
         }
+        mapaMedicos.remove(medico.getNombre().toLowerCase());
         medico.setNombre(nuevoNombre);
         medico.setEspecialidad(nuevaEspecialidad);
         medico.setMaxPacientes(nuevoMaxPacientes);
+        mapaMedicos.put(nuevoNombre.toLowerCase(), medico);
     }
 
     public ObservableList<Medico> getListaMedicos() {
@@ -58,6 +73,7 @@ public class HospitalController {
     }
 
     // MÉTODOS PARA PACIENTES
+
     public void agregarPaciente(String nombre, int edad, String historial, String medicamentos) {
         if (nombre == null || nombre.trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre del paciente no puede estar vacío.");
@@ -71,8 +87,12 @@ public class HospitalController {
         if (medicamentos == null || medicamentos.trim().isEmpty()) {
             throw new IllegalArgumentException("Los medicamentos no pueden estar vacíos.");
         }
+        if (mapaPacientes.containsKey(nombre.toLowerCase())) {
+            throw new IllegalArgumentException("El paciente ya está registrado.");
+        }
         Paciente paciente = new Paciente(nombre, edad, historial, medicamentos);
         listaPacientes.add(paciente);
+        mapaPacientes.put(nombre.toLowerCase(), paciente);
     }
 
     public void eliminarPaciente(Paciente paciente) {
@@ -80,60 +100,40 @@ public class HospitalController {
             throw new IllegalArgumentException("El paciente no puede ser nulo.");
         }
         listaPacientes.remove(paciente);
+        mapaPacientes.remove(paciente.getNombre().toLowerCase());
     }
 
-    public void actualizarPaciente(Paciente paciente, String nuevoNombre, int nuevaEdad, String nuevoHistorial, String nuevosMedicamentos) {
+    public void modificarPaciente(Paciente paciente, String nuevoNombre, int nuevaEdad, String nuevoHistorial, String nuevosMedicamentos) {
         if (paciente == null) {
             throw new IllegalArgumentException("El paciente no puede ser nulo.");
         }
+        mapaPacientes.remove(paciente.getNombre().toLowerCase());
         paciente.setNombre(nuevoNombre);
         paciente.setEdad(nuevaEdad);
         paciente.setHistorialEnfermedades(nuevoHistorial);
         paciente.setMedicamentos(nuevosMedicamentos);
+        mapaPacientes.put(nuevoNombre.toLowerCase(), paciente);
     }
 
     public ObservableList<Paciente> getListaPacientes() {
         return listaPacientes;
     }
 
-    // MÉTODO PARA AGENDAR CITA
-    public void agendarCita(Paciente paciente, LocalDate fecha, String hora) {
-        if (paciente == null) {
-            throw new IllegalArgumentException("El paciente no puede ser nulo.");
-        }
-        if (fecha == null) {
-            throw new IllegalArgumentException("La fecha de la cita no puede ser nula.");
-        }
-        if (hora == null || hora.trim().isEmpty()) {
-            throw new IllegalArgumentException("La hora de la cita no puede estar vacía.");
-        }
-        
-        Cita cita = new Cita(paciente, (Medico) listaMedicos, fecha, hora);
-        listaCitas.add(cita);
+    // MÉTODOS DE CITA Y ADICIONALES
+
+    public Cita agendarCita(Paciente paciente, Medico medico, LocalDate fecha, String hora) {
+        Cita nuevaCita = new Cita(paciente, medico, fecha, hora);
+        listaCitas.add(nuevaCita);
+        return nuevaCita;
     }
 
-    public ObservableList<Cita> getListaCitas() {
-        return listaCitas;
-    }
 
     public Medico buscarMedicoPorNombre(String nombre) {
-        return listaMedicos.stream()
-                .filter(medico -> medico.getNombre().equalsIgnoreCase(nombre))
-                .findFirst()
-                .orElse(null);
+        return mapaMedicos.get(nombre.toLowerCase());
     }
 
     public Paciente buscarPacientePorNombre(String nombre) {
-        return listaPacientes.stream()
-                .filter(paciente -> paciente.getNombre().equalsIgnoreCase(nombre))
-                .findFirst()
-                .orElse(null);
-    }
-
-    public List<Cita> buscarCitasPorFecha(LocalDate fecha) {
-        return listaCitas.stream()
-                .filter(cita -> cita.getFecha().equals(fecha))
-                .toList();
+        return mapaPacientes.get(nombre.toLowerCase());
     }
 
     public void cancelarCita(Cita cita) {
@@ -146,35 +146,24 @@ public class HospitalController {
                 .collect(Collectors.toList());
     }
 
-    public List<Paciente> obtenerPacientesConNombrePalindromo() {
-        return listaPacientes.stream()
-                .filter(paciente -> esPalindromo(paciente.getNombre()))
+    public List<String> buscarNombresPalindromos(List<String> nombres) {
+        return nombres.stream()
+                .filter(nombre -> nombre.equalsIgnoreCase(new StringBuilder(nombre).reverse().toString()))
                 .collect(Collectors.toList());
     }
 
-    public List<Paciente> obtenerPacientesConVocalesRepetidas() {
-        return listaPacientes.stream()
-                .filter(paciente -> tieneDosVocalesIguales(paciente.getNombre()))
+    public List<String> buscarNombresConDosVocalesIguales(List<String> nombres) {
+        return nombres.stream()
+                .filter(nombre -> nombre.toLowerCase().matches(".*([aeiou]).*\\1.*"))
                 .collect(Collectors.toList());
     }
 
-    private boolean esPalindromo(String nombre) {
-        String limpio = nombre.toLowerCase().replaceAll("\\s+", "");
-        return limpio.equals(new StringBuilder(limpio).reverse().toString());
-    }
-
-    private boolean tieneDosVocalesIguales(String nombre) {
-        String limpio = nombre.toLowerCase();
-        return "aeiou".chars().anyMatch(v -> limpio.chars().filter(c -> c == v).count() >= 2);
-    }
-
-    public void agendarCita(Cita cita) {
-    }
-
-    public void agregarPaciente(Paciente paciente) {
-    }
-
-    public void agregarMedico(Medico medico) {
+    public Cita getListaCitas() {
+        return null;
     }
 }
+
+
+
+
 
