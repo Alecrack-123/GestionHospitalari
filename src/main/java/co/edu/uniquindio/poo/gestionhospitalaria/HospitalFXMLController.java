@@ -154,17 +154,7 @@ public class HospitalFXMLController {
         }
     }
 
-    @FXML
-    private void buscarMedico() {
-        String nombre = txtNombreMedico.getText();
-        Medico medico = hospitalController.buscarMedicoPorNombre(nombre);
 
-        if (medico != null) {
-            lblResultadoMedico.setText("Médico encontrado: " + medico.getNombre() + ", Especialidad: " + medico.getEspecialidad());
-        } else {
-            lblResultadoMedico.setText("Médico no encontrado.");
-        }
-    }
 
 
 
@@ -222,18 +212,6 @@ public class HospitalFXMLController {
             }
         } else {
             System.out.println("Error: No se seleccionó un paciente.");
-        }
-    }
-
-    @FXML
-    private void buscarPaciente() {
-        String nombre = txtNombrePaciente.getText();
-        Paciente paciente = hospitalController.buscarPacientePorNombre(nombre);
-
-        if (paciente != null) {
-            lblResultadoPaciente.setText("Paciente encontrado: " + paciente.getNombre() + ", Edad: " + paciente.getEdad());
-        } else {
-            lblResultadoPaciente.setText("Paciente no encontrado.");
         }
     }
 

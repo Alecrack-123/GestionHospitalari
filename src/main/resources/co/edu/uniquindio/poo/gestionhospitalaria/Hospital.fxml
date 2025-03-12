@@ -36,8 +36,7 @@
                                     style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
                             <Button text="Modificar" onAction="#modificarMedico"
                                     style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
-                            <Button text="Buscar" onAction="#buscarMedico"
-                                    style="-fx-background-color: #FF9800; -fx-text-fill: white;"/>
+
                         </HBox>
 
                         <Label fx:id="lblResultadoMedico" wrapText="true"
@@ -80,8 +79,6 @@
                                     style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
                             <Button text="Modificar" onAction="#modificarPaciente"
                                     style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
-                            <Button text="Buscar" onAction="#buscarPaciente"
-                                    style="-fx-background-color: #FF9800; -fx-text-fill: white;"/>
                         </HBox>
 
                         <Label fx:id="lblResultadoPaciente" wrapText="true"

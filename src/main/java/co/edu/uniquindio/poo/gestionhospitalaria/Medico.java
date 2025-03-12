@@ -47,12 +47,7 @@ public List<Paciente> getPacientesAsignados() {
 
     @Override
     public String toString() {
-        return "Medico{" +
-                "nombre='" + nombre + '\'' +
-                ", especialidad='" + especialidad + '\'' +
-                ", maxPacientes=" + maxPacientes +
-                ", pacientesAsignados=" + pacientesAsignados +
-                '}';
+        return nombre;
     }
 
     public boolean asignarPaciente(Paciente paciente) {

@@ -128,13 +128,6 @@ public class HospitalController {
     }
 
 
-    public Medico buscarMedicoPorNombre(String nombre) {
-        return mapaMedicos.get(nombre.toLowerCase());
-    }
-
-    public Paciente buscarPacientePorNombre(String nombre) {
-        return mapaPacientes.get(nombre.toLowerCase());
-    }
 
     public void cancelarCita(Cita cita) {
         listaCitas.remove(cita);

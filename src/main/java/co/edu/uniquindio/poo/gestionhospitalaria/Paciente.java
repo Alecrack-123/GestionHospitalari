@@ -36,12 +36,7 @@ public class Paciente extends Persona implements Cloneable {
         }
     }
 
-    @Override
-    public String toString() {
-        return "Paciente{" +
-                "historialEnfermedades='" + historialEnfermedades + '\'' +
-                ", medicamentos='" + medicamentos + '\'' +
-                '}';
-    }
+
+
 }
 
