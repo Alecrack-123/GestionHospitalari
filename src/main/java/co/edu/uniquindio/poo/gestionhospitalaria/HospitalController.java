@@ -127,7 +127,6 @@ public class HospitalController {
         return nuevaCita;
     }
 
-
     public Medico buscarMedicoPorNombre(String nombre) {
         return mapaMedicos.get(nombre.toLowerCase());
     }
