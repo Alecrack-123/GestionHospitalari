@@ -8,13 +8,13 @@ public class Medico{
 private String nombre;
 private String especialidad;
 private int maxPacientes;
-private List<Paciente> pacientesAsignados;
+
 
 public Medico(String nombre, String especialidad, int maxPacientes) {
     this.nombre = nombre;
     this.especialidad = especialidad;
     this.maxPacientes = maxPacientes;
-    this.pacientesAsignados = new ArrayList<>();
+
 }
 
 public String getNombre() {
@@ -41,24 +41,11 @@ public void setMaxPacientes(int maxPacientes) {
     this.maxPacientes = maxPacientes;
 }
 
-public List<Paciente> getPacientesAsignados() {
-    return pacientesAsignados;
-}
 
     @Override
     public String toString() {
         return nombre;
     }
 
-    public boolean asignarPaciente(Paciente paciente) {
-    if (pacientesAsignados.size() < maxPacientes) {
-        pacientesAsignados.add(paciente);
-        return true;
-    } else {
-        System.out.println("El doctor " + nombre + " ha alcanzado el número máximo de pacientes.");
-        return false;
-    }
-
-}
 }
 
